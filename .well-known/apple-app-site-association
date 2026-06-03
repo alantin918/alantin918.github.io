@@ -1,0 +1,19 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["UVJFVS4NGG.app.sharedplaces.SharedPlaces"],
+        "components": [
+          {
+            "/": "/share",
+            "comment": "Open SharedPlaces app to process shared link"
+          },
+          {
+            "/": "/share*",
+            "comment": "With optional query string"
+          }
+        ]
+      }
+    ]
+  }
+}
