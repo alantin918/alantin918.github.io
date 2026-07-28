@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AS 哩程攻略與倫敦冰島 12 天極限雙城指南</title>
+    <meta name="description" content="阿拉斯加航空 (Alaska Airlines) 買哩程攻略，精算國泰、芬蘭、卡達與華航等四大航空，搭配倫敦與冰島 12 天雙城極光聖誕行程動態預算計算器。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 頂部導覽列 Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="brand">
+                <span class="brand-icon">✈️</span>
+                <div class="brand-text">
+                    <span class="brand-title">AS Miles Hub</span>
+                    <span class="brand-sub">倫敦 ＋ 冰島 12天雙城極光攻略</span>
+                </div>
+            </div>
+
+            <!-- 主選單 Navigation Tabs -->
+            <nav class="main-nav" id="mainNav">
+                <button class="nav-btn active" data-tab="tab-calculator" id="navCalc">
+                    <span class="nav-icon">💰</span> 哩程與費用計算器
+                </button>
+                <button class="nav-btn" data-tab="tab-flights" id="navFlights">
+                    <span class="nav-icon">✈️</span> 四大航空與交通
+                </button>
+                <button class="nav-btn" data-tab="tab-itinerary" id="navItinerary">
+                    <span class="nav-icon">🗺️</span> 12天精華行程
+                </button>
+                <button class="nav-btn" data-tab="tab-nature" id="navNature">
+                    <span class="nav-icon">♨️</span> 溫泉與自然奇景
+                </button>
+                <button class="nav-btn" data-tab="tab-checklist" id="navChecklist">
+                    <span class="nav-icon">🧳</span> 行前裝備與清單
+                </button>
+            </nav>
+
+            <!-- 主題切換按鈕 Theme Toggle -->
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="切換深色/淺色模式">
+                    <span class="theme-icon sun-icon">☀️</span>
+                    <span class="theme-icon moon-icon">🌙</span>
+                    <span class="theme-label">暗黑模式</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要內容區 Main Container -->
+    <main class="main-content">
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+            <div class="hero-content">
+                <div class="badge-tag">🔥 阿拉斯加航空 AS 哩程專屬爆款攻略</div>
+                <h1 class="hero-title">哩程精算 ✕ 倫敦聖誕 ✕ 冰島藍冰洞極光 12 天大滿貫</h1>
+                <p class="hero-desc">掌握阿拉斯加航空 (Alaska Airlines) 買哩程攻略，以 3-4 折划算爽躺商務艙，完美串聯英倫燈海與冰雪荒野！</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-val">3-4 折</span>
+                        <span class="stat-lbl">AS 哩程換商務艙折扣</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">12 天</span>
+                        <span class="stat-lbl">雙城極致大滿貫</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val">6 小時</span>
+                        <span class="stat-lbl">11月最佳日照利用率</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 頁面 1：哩程與費用實時計算器 (Interactive Calculator) -->
+        <section id="tab-calculator" class="tab-panel active">
+            <div class="panel-header">
+                <h2>💰 AS 買哩程 ✕ 12 天雙城動態費用試算器</h2>
+                <p>勾選您的航線、AS 哩程特價比例與旅遊活動，即時計算單人與雙人總預算！</p>
+            </div>
+
+            <div class="calc-grid">
+                <!-- 左側控制面板 Form Controls -->
+                <div class="calc-controls card-glass">
+                    <h3 class="card-title">⚙️ 試算參數設定</h3>
+                    
+                    <!-- 1. 國際線航班選擇 -->
+                    <div class="form-group">
+                        <label class="form-label" for="flightSelect">1. 國際長程航線選擇 (台北/香港 ↔ 倫敦)</label>
+                        <select id="flightSelect" class="form-select">
+                            <option value="cathay" selected>國泰航空 (經香港轉機) - AS哩程7.5萬 + 稅金$3,500 [轉機最快/改簽最安全]</option>
+                            <option value="finnair">芬蘭航空 (經赫爾辛基) - AS哩程7.5萬 + 稅金$2,500 [稅金最省/冰島直飛]</option>
+                            <option value="qatar">卡達航空 Qsuite (經杜哈) - AS哩程7.5萬 + 稅金$6,400 [最奢華帶門套房]</option>
+                            <option value="chinaair">中華航空 (台北直飛) - 現金票約 $43,280 [直飛零風險/體力負擔最小]</option>
+                            <option value="etihad">阿提哈德 (經阿布達比) - 現金票約 $28,126 [極致便宜省錢王]</option>
+                        </select>
+                    </div>
+
+                    <!-- 2. AS 買哩程優惠折扣選項 -->
+                    <div class="form-group" id="asDiscountGroup">
+                        <label class="form-label" for="asBonusSelect">2. AS 官網買哩程折扣優惠</label>
+                        <select id="asBonusSelect" class="form-select">
+                            <option value="60" selected>60% Bonus 特價 (約 $185 美金 / 萬哩) [推薦大活動]</option>
+                            <option value="50">50% Bonus 特價 (約 $198 美金 / 萬哩)</option>
+                            <option value="40">40% Bonus 特價 (約 $210 美金 / 萬哩)</option>
+                            <option value="0">無特價原價購買 (約 $295 美金 / 萬哩)</option>
+                        </select>
+                    </div>
+
+                    <!-- 3. 同行人數 -->
+                    <div class="form-group">
+                        <label class="form-label">3. 同行人種（平分住宿與租車油資）</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="peopleCount" value="1"> 單人獨旅
+                            </label>
+                            <label class="radio-label active">
+                                <input type="radio" name="peopleCount" value="2" checked> 雙人同行 (房費與車資對半)
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 4. 自選門票活動與加購 -->
+                    <div class="form-group">
+                        <label class="form-label">4. 活動與附加項目勾選</label>
+                        <div class="checkbox-list">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="chkEasyjet" checked> 
+                                <span>easyJet 倫敦↔冰島 (阿聯酋哩程全額兌換 $0 / 現金約 $6,000)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="chkIcecave" checked> 
+                                <span>冰島瓦特納藍冰洞 ＋ 冰川健行 Tour ($5,000/人)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="chkBluelagoon" checked> 
+                                <span>冰島藍湖溫泉 (Blue Lagoon) Comfort 套票 ($3,500/人)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="chkSkylagoon" checked> 
+                                <span>冰島 Sky Lagoon 海景溫泉 7 步水療套票 ($2,800/人)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="chkMusical" checked> 
+                                <span>倫敦西區優質音樂劇門票 ($3,200/人)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="chkCarInsurance" checked> 
+                                <span>冰島 4WD SUV 租車 6 天＋全額防砂石保險 ($12,000/車)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側結果展示卡片 Result Card -->
+                <div class="calc-results card-glass">
+                    <h3 class="card-title">📊 試算結果與費用分拆明細</h3>
+                    
+                    <div class="total-display">
+                        <div class="total-price-box">
+                            <span class="total-lbl">每人估算總花費 (TWD)</span>
+                            <span class="total-num" id="totalPricePerPerson">NT$ 0</span>
+                        </div>
+                        <div class="total-price-box secondary">
+                            <span class="total-lbl">總行程預算 (包含全組人)</span>
+                            <span class="total-num-sec" id="totalPriceGroup">NT$ 0</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-list">
+                        <div class="breakdown-item">
+                            <span class="bk-name">✈️ 國際段機票成本 (包含買哩程或現金票)</span>
+                            <span class="bk-val" id="bkFlight">NT$ 0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🎟️ 機場稅金與雜費</span>
+                            <span class="bk-val" id="bkTax">NT$ 0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🏨 住宿預算 (倫敦4晚 ＋ 冰島6晚)</span>
+                            <span class="bk-val" id="bkHotel">NT$ 28,000 /人</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🚗 交通租車與油資 (倫敦地鐵 ＋ 冰島4WD)</span>
+                            <span class="bk-val" id="bkTransport">NT$ 0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🎯 門票與行程活動體驗</span>
+                            <span class="bk-val" id="bkActivities">NT$ 0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🍽️ 餐飲與超市自煮預算</span>
+                            <span class="bk-val" id="bkFood">NT$ 22,000 /人</span>
+                        </div>
+                    </div>
+
+                    <div class="savings-banner">
+                        <span class="savings-icon">💡</span>
+                        <div class="savings-text">
+                            <strong>哩程省錢策略提示：</strong>
+                            <span id="savingsNotice">選擇國泰/芬蘭/卡達配合 AS 買哩程，比原價商務艙省下近 7~8 萬台幣！</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 頁面 2：四大航空公司與交通對比 (Flights & Transit) -->
+        <section id="tab-flights" class="tab-panel">
+            <div class="panel-header">
+                <h2>✈️ 四大航空公司 ✕ 延誤風險 ✕ 確切搭乘時間全評比</h2>
+                <p>針對前往倫敦的四家主要航空，評估起降時間、轉機花費小時、延誤風險與意外改簽能力。</p>
+            </div>
+
+            <div class="airline-cards">
+                <!-- 1. 國泰航空 -->
+                <div class="airline-card featured">
+                    <div class="card-badge">🌟 轉機最快 / 改簽最安心</div>
+                    <h3 class="airline-name">國泰航空 Cathay Pacific</h3>
+                    <div class="airline-price">AS 75,000 哩 ＋ 稅金約 $3,500</div>
+                    <ul class="airline-details">
+                        <li><strong>⏱️ 去程搭乘時間：</strong>16 小時 15 分 (10:45 TPE ➡️ 20:00 LHR)</li>
+                        <li><strong>⏱️ 回程搭乘時間：</strong>15 小時 25 分 (12:20 LHR ➡️ 11:45+1 TPE)</li>
+                        <li><strong>🔄 轉機點與時間：</strong>香港 (HKG) 轉機約 1.5 - 2 小時 (最極速)</li>
+                        <li><strong>🚨 延誤改簽能力：</strong>香港每天 4-5 班直飛倫敦。第一段延誤能**立刻改簽數小時後的下一班**，完全不用留宿過夜！</li>
+                    </ul>
+                </div>
+
+                <!-- 2. 芬蘭航空 -->
+                <div class="airline-card">
+                    <div class="card-badge badge-green">💰 稅金最省 / 直飛冰島</div>
+                    <h3 class="airline-name">芬蘭航空 Finnair</h3>
+                    <div class="airline-price">AS 75,000 哩 ＋ 稅金約 $2,500</div>
+                    <ul class="airline-details">
+                        <li><strong>⏱️ 去程搭乘時間：</strong>17 小時 30 分</li>
+                        <li><strong>⏱️ 回程搭乘時間：</strong>16 小時 40 分</li>
+                        <li><strong>🔄 轉機點與時間：</strong>赫爾辛基 (HEL) 轉機約 2 - 2.5 小時</li>
+                        <li><strong>🚨 獨家優勢：</strong>大本營赫爾辛基**直接有直飛冰島雷克雅維克 (KEF)** 的航班！稅金全場最便宜。</li>
+                    </ul>
+                </div>
+
+                <!-- 3. 卡達航空 -->
+                <div class="airline-card">
+                    <div class="card-badge badge-purple">💎 奢華 Qsuite 天花板</div>
+                    <h3 class="airline-name">卡達航空 Qatar Airways</h3>
+                    <div class="airline-price">AS 75,000~85,000 哩 ＋ 稅金約 $6,400</div>
+                    <ul class="airline-details">
+                        <li><strong>⏱️ 去程搭乘時間：</strong>18 小時 30 分</li>
+                        <li><strong>⏱️ 回程搭乘時間：</strong>17 小時 10 分</li>
+                        <li><strong>🔄 轉機點與時間：</strong>杜哈 (DOH) 轉機約 2.5 小時</li>
+                        <li><strong>🚨 獨家優勢：</strong>全球評價第一的 **Qsuite 帶門獨立包廂商務艙**，奢華貴賓室體驗。</li>
+                    </ul>
+                </div>
+
+                <!-- 4. 中華航空 -->
+                <div class="airline-card">
+                    <div class="card-badge badge-blue">🚀 零轉機直飛王</div>
+                    <h3 class="airline-name">中華航空 China Airlines</h3>
+                    <div class="airline-price">現金票約 NT$ 43,280 / 直飛</div>
+                    <ul class="airline-details">
+                        <li><strong>⏱️ 去程搭乘時間：</strong>13 小時 40 分 (08:50 TPE ➡️ 16:30 LHR)</li>
+                        <li><strong>⏱️ 回程搭乘時間：</strong>13 小時 20 分 (21:10 LHR ➡️ 18:30+1 TPE)</li>
+                        <li><strong>🔄 轉機點與時間：</strong>直飛無轉機 (0 分鐘)</li>
+                        <li><strong>🚨 延誤風險：</strong>零失連 (Misconnection) 風險！體力負擔最小，抵達剛好進飯店。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 阿聯酋哩程換 easyJet 指南 -->
+            <div class="info-box-card">
+                <h3>💡 easyJet 倫敦 ↔ 冰島（使用阿聯酋 Skywards 哩程全額兌換）</h3>
+                <p>您可以利用即將過期的阿聯酋哩程，在 Emirates 官網合作夥伴專區直接預訂 easyJet 機票！哩程可連同**機場稅金與 23kg 托運行李**全額折抵。去程 11:30 出發，14:45 到冰島，時間完美銜接！</p>
+            </div>
+        </section>
+
+        <!-- 頁面 3：12天精華行程 (12-Day Itinerary) -->
+        <section id="tab-itinerary" class="tab-panel">
+            <div class="panel-header">
+                <h2>🗺️ 12 天雙城大滿貫時間軸總行程</h2>
+                <p>專為 11 月黃金日照設計（黑夜拉車、白天看景），新增斯奈山半島教堂山深度遊！</p>
+            </div>
+
+            <!-- Day Selector Tabs -->
+            <div class="day-tabs" id="dayTabs">
+                <button class="day-btn active" data-day="1">Day 1</button>
+                <button class="day-btn" data-day="2">Day 2</button>
+                <button class="day-btn" data-day="3">Day 3</button>
+                <button class="day-btn" data-day="4">Day 4</button>
+                <button class="day-btn" data-day="5">Day 5</button>
+                <button class="day-btn" data-day="6">Day 6</button>
+                <button class="day-btn" data-day="7">Day 7</button>
+                <button class="day-btn" data-day="8">Day 8</button>
+                <button class="day-btn" data-day="9">Day 9</button>
+                <button class="day-btn" data-day="10">Day 10</button>
+                <button class="day-btn" data-day="11">Day 11</button>
+                <button class="day-btn" data-day="12">Day 12</button>
+            </div>
+
+            <!-- 行程動態顯示區 Day Detail Card -->
+            <div class="itinerary-detail card-glass" id="dayDetailContainer">
+                <!-- 由 JavaScript 動態繪製 -->
+            </div>
+        </section>
+
+        <!-- 頁面 4：溫泉與大自然奇景 (Hot Springs & Nature) -->
+        <section id="tab-nature" class="tab-panel">
+            <div class="panel-header">
+                <h2>♨️ 冰島三大熱門溫泉 ✕ 五大自然奇景圖鑑</h2>
+                <p>11 月冬季限定重頭戲！藍冰洞探險、魔幻夕陽黑沙灘與兩大放鬆溫泉完整指引。</p>
+            </div>
+
+            <h3 class="sub-section-title">🌋 三大溫泉比較與關門/維修注意事項</h3>
+            <div class="springs-grid">
+                <div class="spring-card">
+                    <div class="spring-img-placeholder blue-lagoon">♨️ 藍湖溫泉 (Blue Lagoon)</div>
+                    <div class="spring-body">
+                        <h4>藍湖溫泉 Blue Lagoon</h4>
+                        <span class="spring-time">11月營業時間：08:00 - 20:00</span>
+                        <p>Tiffany 藍火山溫泉、免費白矽泥面膜與水中 Bar。排在 Day 4 抵達冰島後直奔！</p>
+                        <div class="warning-tag">⚠️ 維修提示：每年1月深層保養；若有火山防禦性暫停官網全額退款。</div>
+                    </div>
+                </div>
+
+                <div class="spring-card">
+                    <div class="spring-img-placeholder sky-lagoon">🌊 天空溫泉 (Sky Lagoon)</div>
+                    <div class="spring-body">
+                        <h4>天空溫泉 Sky Lagoon</h4>
+                        <span class="spring-time">11月營業時間：10:00 - 22:00</span>
+                        <p>位於雷克雅維克市區崖邊的無邊際海景溫泉，獨家「7 步水療儀式 (7-Step Ritual)」。</p>
+                        <div class="warning-tag success">✅ 營業至 22:00，適合 Day 9 16:00 天黑後安排泡湯！</div>
+                    </div>
+                </div>
+
+                <div class="spring-card">
+                    <div class="spring-img-placeholder secret-lagoon">🌿 秘密溫泉 (Secret Lagoon)</div>
+                    <div class="spring-body">
+                        <h4>秘密溫泉 Secret Lagoon</h4>
+                        <span class="spring-time">11月營業時間：10:00 - 19:00</span>
+                        <p>位於黃金圈 Flúðir 鎮，冰島最古老的天然溫泉，水溫保持在 38-40°C，周邊有小型間歇泉。</p>
+                        <div class="warning-tag neutral">ℹ️ 純天然戶外池，無大規模保養維修關閉。</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="sub-section-title" style="margin-top: 2rem;">🏔️ 11 月五大不可錯過的冰島奇景</h3>
+            <div class="wonders-list">
+                <div class="wonder-item">
+                    <span class="wonder-num">01</span>
+                    <div class="wonder-text">
+                        <strong>藍冰洞探險 (Blue Ice Cave)</strong>
+                        <p>萬年冰川內部的水晶藍冰洞，每年 11 月才開放的冬季限定奇觀！</p>
+                    </div>
+                </div>
+                <div class="wonder-item">
+                    <span class="wonder-num">02</span>
+                    <div class="wonder-text">
+                        <strong>傑古沙龍冰河湖 & 鑽石沙灘</strong>
+                        <p>黑沙灘上散落著如鑽石般璀璨的透明浮冰，低角度夕陽照耀下夢幻無比。</p>
+                    </div>
+                </div>
+                <div class="wonder-item">
+                    <span class="wonder-num">03</span>
+                    <div class="wonder-text">
+                        <strong>教堂山 Kirkjufell (斯奈山半島)</strong>
+                        <p>《權力遊戲》地標！「草帽形」教堂山與雙層瀑布，12 天行程專屬加碼景點。</p>
+                    </div>
+                </div>
+                <div class="wonder-item">
+                    <span class="wonder-num">04</span>
+                    <div class="wonder-text">
+                        <strong>黃金圈 (Golden Circle)</strong>
+                        <p>歐亞與北美板塊大裂縫、每 5-10 分鐘噴發一次的 Strokkur 間歇泉、黃金雙層瀑布。</p>
+                    </div>
+                </div>
+                <div class="wonder-item">
+                    <span class="wonder-num">05</span>
+                    <div class="wonder-text">
+                        <strong>雷尼斯黑沙灘 (Reynisfjara)</strong>
+                        <p>世界最美黑沙灘，巨型玄武岩石柱海蝕洞與大西洋磅礡浪潮。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 頁面 5：行前裝備與清單 (Checklist) -->
+        <section id="tab-checklist" class="tab-panel">
+            <div class="panel-header">
+                <h2>🧳 11 月倫敦冰島行前互動備忘清單</h2>
+                <p>點擊勾選確認您的必備證件、穿搭裝備與機票確認單，出發前零失誤！</p>
+            </div>
+
+            <div class="checklist-container card-glass">
+                <div class="checklist-section">
+                    <h3>📋 1. 重要證件與機票證明</h3>
+                    <div class="todo-grid">
+                        <label class="todo-item"><input type="checkbox"> 護照 (效期 6 個月以上)</label>
+                        <label class="todo-item"><input type="checkbox"> 英國 ETA 簽證 / 申根保險證明</label>
+                        <label class="todo-item"><input type="checkbox"> 國際駕照 + 國內駕照正本 (冰島自駕必備)</label>
+                        <label class="todo-item"><input type="checkbox"> 華航 / 國泰 / 芬蘭機票確認單</label>
+                        <label class="todo-item"><input type="checkbox"> 阿聯酋哩程兌換 easyJet 機票確認單</label>
+                        <label class="todo-item"><input type="checkbox"> 雙外幣信用卡 (刷卡卡號與Pin碼)</label>
+                    </div>
+                </div>
+
+                <div class="checklist-section">
+                    <h3>🧥 2. 11月冰島洋蔥式保暖穿搭</h3>
+                    <div class="todo-grid">
+                        <label class="todo-item"><input type="checkbox"> Gore-Tex 防風防水防寒外套 (必備！)</label>
+                        <label class="todo-item"><input type="checkbox"> 高筒防水登山雪靴 (冰川健行適用)</label>
+                        <label class="todo-item"><input type="checkbox"> 吸濕排汗發熱衣 / 保暖羊毛衣</label>
+                        <label class="todo-item"><input type="checkbox"> 防風防水長褲 (勿穿牛仔褲！)</label>
+                        <label class="todo-item"><input type="checkbox"> 遮耳保暖毛帽 ＋ 防風厚手套</label>
+                        <label class="todo-item"><input type="checkbox"> 泳衣 ＋ 泳帽 ＋ 毛巾 (溫泉用)</label>
+                    </div>
+                </div>
+
+                <div class="checklist-section">
+                    <h3>📸 3. 追極光與攝影器材</h3>
+                    <div class="todo-grid">
+                        <label class="todo-item"><input type="checkbox"> 相機 / 手機穩固三腳架 (夜間極光長曝必備)</label>
+                        <label class="todo-item"><input type="checkbox"> 大容量行動電源 (低溫掉電快)</label>
+                        <label class="todo-item"><input type="checkbox"> 歐洲三孔轉接頭 (UK) ＋ 雙孔圓頭 (EU)</label>
+                        <label class="todo-item"><input type="checkbox"> 暖暖包 (貼相機 battery 或口袋)</label>
+                        <label class="todo-item"><input type="checkbox"> 極光預測 App (My Aurora Forecast)</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 頁尾 Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>✈️ AS Miles Travel Hub —— 阿拉斯加航空哩程 ✕ 倫敦冰島 12 天雙城極限指南</p>
+            <p class="copyright">專為旅行愛好者打造 · 支援 RWD 響應式與日夜模式切換</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
