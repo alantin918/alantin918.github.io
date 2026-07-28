@@ -507,7 +507,8 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 20px;
     padding: 1.8rem;
-    position: relative;
+    display: flex;
+    flex-direction: column;
     transition: var(--transition);
 }
 
@@ -517,15 +518,16 @@ body {
 }
 
 .card-badge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
     background: var(--accent-aurora);
     color: #0A0E17;
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    padding: 0.25rem 0.6rem;
+    padding: 0.3rem 0.8rem;
     border-radius: 99px;
+    margin-bottom: 0.8rem;
 }
 
 .card-badge.badge-green { background: #10B981; color: #fff; }
