@@ -369,11 +369,13 @@ function initPointsTracker() {
     const ptCathay = document.getElementById('ptCathay');
     const ptTaishin = document.getElementById('ptTaishin');
     const ptEsun = document.getElementById('ptEsun');
+    const ptExisting = document.getElementById('ptExisting');
 
     const resDbs = document.getElementById('resDbs');
     const resCathay = document.getElementById('resCathay');
     const resTaishin = document.getElementById('resTaishin');
     const resEsun = document.getElementById('resEsun');
+    const resExisting = document.getElementById('resExisting');
 
     const totalMilesEl = document.getElementById('totalMiles');
     const milesProgressEl = document.getElementById('milesProgress');
@@ -387,6 +389,7 @@ function initPointsTracker() {
         const cathayVal = parseFloat(ptCathay.value) || 0;
         const taishinVal = parseFloat(ptTaishin.value) || 0;
         const esunVal = parseFloat(ptEsun.value) || 0;
+        const existingMiles = parseFloat(ptExisting.value) || 0;
 
         // 套用轉換公式
         const dbsMiles = Math.floor(dbsVal * (100 / 90));
@@ -403,13 +406,14 @@ function initPointsTracker() {
         const esunGroups = Math.floor(esunVal / 200);
         const esunMiles = esunGroups * 180;
 
-        const totalMiles = dbsMiles + cathayMiles + taishinMiles + esunMiles;
+        const totalMiles = dbsMiles + cathayMiles + taishinMiles + esunMiles + existingMiles;
 
         // 更新 DOM 分項
         resDbs.textContent = `${dbsMiles.toLocaleString()} 哩`;
         resCathay.textContent = `${cathayMiles.toLocaleString()} 哩`;
         resTaishin.textContent = `${taishinMiles.toLocaleString()} 哩`;
         resEsun.textContent = `${esunMiles.toLocaleString()} 哩`;
+        resExisting.textContent = `${existingMiles.toLocaleString()} 哩`;
 
         // 更新總和與進度條
         totalMilesEl.textContent = `${totalMiles.toLocaleString()} 哩`;
@@ -430,7 +434,7 @@ function initPointsTracker() {
     }
 
     // 綁定事件
-    [ptDbs, ptCathay, ptTaishin, ptEsun].forEach(input => {
+    [ptDbs, ptCathay, ptTaishin, ptEsun, ptExisting].forEach(input => {
         input.addEventListener('input', calculateMiles);
     });
 
