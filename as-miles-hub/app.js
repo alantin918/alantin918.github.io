@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigationTabs();
     initItineraryTimeline();
     initInteractiveCalculator();
+    initPointsTracker();
 });
 
 /* --------------------------------------------------------------------------
@@ -358,4 +359,78 @@ function initInteractiveCalculator() {
 
     // 初次計算
     calculateBudget();
+}
+
+/* --------------------------------------------------------------------------
+   5. Points & Miles Tracker Engine
+   -------------------------------------------------------------------------- */
+function initPointsTracker() {
+    const ptDbs = document.getElementById('ptDbs');
+    const ptCathay = document.getElementById('ptCathay');
+    const ptTaishin = document.getElementById('ptTaishin');
+    const ptEsun = document.getElementById('ptEsun');
+
+    const resDbs = document.getElementById('resDbs');
+    const resCathay = document.getElementById('resCathay');
+    const resTaishin = document.getElementById('resTaishin');
+    const resEsun = document.getElementById('resEsun');
+
+    const totalMilesEl = document.getElementById('totalMiles');
+    const milesProgressEl = document.getElementById('milesProgress');
+    const milesStatusEl = document.getElementById('milesStatus');
+
+    const TARGET_MILES = 35000;
+
+    function calculateMiles() {
+        // 取得輸入值
+        const dbsVal = parseFloat(ptDbs.value) || 0;
+        const cathayVal = parseFloat(ptCathay.value) || 0;
+        const taishinVal = parseFloat(ptTaishin.value) || 0;
+        const esunVal = parseFloat(ptEsun.value) || 0;
+
+        // 套用轉換公式
+        const dbsMiles = Math.floor(dbsVal * (100 / 90));
+        const cathayMiles = Math.floor(cathayVal * (1000 / 360));
+        
+        // 台新 11 換 14, 只能換整數組
+        const taishinGroups = Math.floor(taishinVal / 11);
+        const taishinMiles = taishinGroups * 14;
+
+        // 玉山 200 換 180, 只能換整數組
+        const esunGroups = Math.floor(esunVal / 200);
+        const esunMiles = esunGroups * 180;
+
+        const totalMiles = dbsMiles + cathayMiles + taishinMiles + esunMiles;
+
+        // 更新 DOM 分項
+        resDbs.textContent = `${dbsMiles.toLocaleString()} 哩`;
+        resCathay.textContent = `${cathayMiles.toLocaleString()} 哩`;
+        resTaishin.textContent = `${taishinMiles.toLocaleString()} 哩`;
+        resEsun.textContent = `${esunMiles.toLocaleString()} 哩`;
+
+        // 更新總和與進度條
+        totalMilesEl.textContent = `${totalMiles.toLocaleString()} 哩`;
+        
+        let percent = (totalMiles / TARGET_MILES) * 100;
+        if (percent > 100) percent = 100;
+        milesProgressEl.style.width = `${percent}%`;
+
+        if (totalMiles >= TARGET_MILES) {
+            milesProgressEl.style.background = 'linear-gradient(90deg, #10B981, #34D399)';
+            milesStatusEl.innerHTML = `✅ 恭喜！已超越門檻，多出 <strong>${(totalMiles - TARGET_MILES).toLocaleString()} 哩</strong>！可升等商務艙！`;
+            milesStatusEl.style.color = '#10B981';
+        } else {
+            milesProgressEl.style.background = 'linear-gradient(90deg, var(--accent-aurora), var(--accent-blue))';
+            milesStatusEl.innerHTML = `⚠️ 距離升等門檻還差 <strong>${(TARGET_MILES - totalMiles).toLocaleString()} 哩</strong>`;
+            milesStatusEl.style.color = 'var(--accent-gold)';
+        }
+    }
+
+    // 綁定事件
+    [ptDbs, ptCathay, ptTaishin, ptEsun].forEach(input => {
+        input.addEventListener('input', calculateMiles);
+    });
+
+    // 初始計算
+    calculateMiles();
 }

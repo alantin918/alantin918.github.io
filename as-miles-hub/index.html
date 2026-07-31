@@ -37,6 +37,9 @@
                 <button class="nav-btn" data-tab="tab-nature" id="navNature">
                     <span class="nav-icon">♨️</span> 溫泉與自然奇景
                 </button>
+                <button class="nav-btn" data-tab="tab-tracker" id="navTracker">
+                    <span class="nav-icon">📊</span> 信用卡點數精算機
+                </button>
                 <button class="nav-btn" data-tab="tab-checklist" id="navChecklist">
                     <span class="nav-icon">🧳</span> 行前裝備與清單
                 </button>
@@ -388,7 +391,96 @@
             </div>
         </section>
 
-        <!-- 頁面 5：行前裝備與清單 (Checklist) -->
+        <!-- 頁面 5：信用卡點數精算機 (Points & Miles Tracker) -->
+        <section id="tab-tracker" class="tab-panel">
+            <div class="panel-header">
+                <h2>📊 信用卡點數 ✕ 華航哩程全局精算機</h2>
+                <p>輸入您在各家銀行的點數餘額，自動套用您親自推導的「全局成本算法」，精算轉入華航帳戶的總哩程與升等進度！</p>
+            </div>
+
+            <div class="calc-grid">
+                <!-- 左側輸入面板 Form Controls -->
+                <div class="calc-controls card-glass">
+                    <h3 class="card-title">💳 點數餘額輸入區</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="ptDbs">1. 星展銀行 (DBS) - 傳說對決卡</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="number" id="ptDbs" class="form-select" value="13676" style="width: auto; flex: 1;">
+                            <span style="font-size: 0.85rem; color: var(--text-secondary);">點</span>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">轉換率：90換100 | 前端回饋：10% | 成本：9.00 元/哩 🏆</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="ptCathay">2. 國泰世華 (Cathay) - 小樹點</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="number" id="ptCathay" class="form-select" value="4819" style="width: auto; flex: 1;">
+                            <span style="font-size: 0.85rem; color: var(--text-secondary);">點</span>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">轉換率：360換1000 | 前端回饋：3% | 成本：12.00 元/哩</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="ptTaishin">3. 台新銀行 (Taishin) - 台新 Point</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="number" id="ptTaishin" class="form-select" value="6880" style="width: auto; flex: 1;">
+                            <span style="font-size: 0.85rem; color: var(--text-secondary);">點</span>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">轉換率：11換14 | 前端回饋：3.8% | 成本：20.68 元/哩</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="ptEsun">4. 玉山銀行 (E.SUN) - e point</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="number" id="ptEsun" class="form-select" value="3973" style="width: auto; flex: 1;">
+                            <span style="font-size: 0.85rem; color: var(--text-secondary);">點</span>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">轉換率：200換180 | 前端回饋：3.5% | 成本：31.75 元/哩</div>
+                    </div>
+                </div>
+
+                <!-- 右側結果展示卡片 Result Card -->
+                <div class="calc-results card-glass">
+                    <h3 class="card-title">🚀 華航哩程升等商務艙進度</h3>
+                    
+                    <div class="total-display">
+                        <div class="total-price-box">
+                            <span class="total-lbl">預計獲得總華航哩程</span>
+                            <span class="total-num" id="totalMiles">0 哩</span>
+                        </div>
+                        <div class="total-price-box secondary">
+                            <span class="total-lbl">距離商務艙升等門檻 (35,000 哩)</span>
+                            <div class="progress-bar-bg" style="background: rgba(0,0,0,0.2); border-radius: 99px; height: 12px; margin-top: 0.8rem; overflow: hidden; border: 1px solid var(--border-color);">
+                                <div id="milesProgress" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--accent-aurora), var(--accent-blue)); transition: width 0.8s ease;"></div>
+                            </div>
+                            <span id="milesStatus" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; display: block;">計算中...</span>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-list">
+                        <div class="breakdown-item">
+                            <span class="bk-name">🦁 星展銀行 (90 -> 100)</span>
+                            <span class="bk-val" id="resDbs">0 哩</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🌳 國泰小樹點 (360 -> 1000)</span>
+                            <span class="bk-val" id="resCathay">0 哩</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🌹 台新 Point (11 -> 14)</span>
+                            <span class="bk-val" id="resTaishin">0 哩</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🐻 玉山 e point (200 -> 180)</span>
+                            <span class="bk-val" id="resEsun">0 哩</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 頁面 6：行前裝備與清單 (Checklist) -->
         <section id="tab-checklist" class="tab-panel">
             <div class="panel-header">
                 <h2>🧳 11 月倫敦冰島行前互動備忘清單</h2>
