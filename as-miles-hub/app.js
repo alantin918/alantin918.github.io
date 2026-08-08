@@ -391,13 +391,15 @@ function initPointsTracker() {
         const esunVal = parseFloat(ptEsun.value) || 0;
         const existingMiles = parseFloat(ptExisting.value) || 0;
 
-        // 套用轉換公式
-        const dbsMiles = Math.floor(dbsVal * (100 / 90));
-        
+        // 套用轉換公式 (以華航 Dynasty Flyer 為目標，整除塊算法，與 plan.js ciSources 一致)
+        // 星展 90 換 100
+        const dbsGroups = Math.floor(dbsVal / 90);
+        const dbsMiles = dbsGroups * 100;
+
         // 國泰 840 換 1000, 只能換整數組
         const cathayGroups = Math.floor(cathayVal / 840);
         const cathayMiles = cathayGroups * 1000;
-        
+
         // 台新 11 換 14, 只能換整數組
         const taishinGroups = Math.floor(taishinVal / 11);
         const taishinMiles = taishinGroups * 14;
