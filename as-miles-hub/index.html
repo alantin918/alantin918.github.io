@@ -448,8 +448,8 @@
         <!-- 頁面 5：信用卡點數精算機 (Points & Miles Tracker) -->
         <section id="tab-tracker" class="tab-panel">
             <div class="panel-header">
-                <h2>📊 信用卡點數 ✕ 華航哩程全局精算機</h2>
-                <p>輸入您在各家銀行的點數餘額，自動套用您親自推導的「全局成本算法」，精算轉入華航帳戶的總哩程與升等進度！</p>
+                <h2>📊 信用卡點數 ✕ 華航／長榮 雙軌精算機</h2>
+                <p>輸入各家銀行的點數餘額，同時精算轉入<strong>華航 Dynasty Flyer</strong> 與 <strong>長榮無限萬哩遊</strong>各能拿到多少哩，一眼看出哪邊划算。</p>
             </div>
 
             <div class="calc-grid">
@@ -463,7 +463,18 @@
                             <input type="number" id="ptDbs" class="form-select" value="13677" style="width: auto; flex: 1;">
                             <span style="font-size: 0.85rem; color: var(--text-secondary);">點</span>
                         </div>
-                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">轉換率：90換100 | 前端回饋：10% | 成本：9.00 元/哩 🏆</div>
+                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">華航轉換率：90換100 | 前端回饋：10% | 成本：9.00 元/哩 🏆</div>
+                        <div style="margin-top: 0.5rem;">
+                            <label class="form-label" for="dbsEvaRate" style="font-size: 0.8rem;">↳ 轉長榮的點數類型（星展比例依卡別差很大，請先確認）</label>
+                            <select id="dbsEvaRate" class="form-select" style="width: 100%;">
+                                <option value="">尚未確認（暫不計入長榮）</option>
+                                <option value="1">飛行積金（1 點 → 1 哩）</option>
+                                <option value="2">現金積點／現金紅利（1 點 → 2 哩）</option>
+                                <option value="0.2">活利積分・一般卡（5 點 → 1 哩）</option>
+                                <option value="0.3333">活利積分・極耀無限卡（3 點 → 1 哩）</option>
+                            </select>
+                            <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 0.3rem;">星展轉長榮規定：單筆最低 3,000 哩，且須為 1,000 哩倍數</div>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -472,7 +483,7 @@
                             <input type="number" id="ptCathay" class="form-select" value="4844" style="width: auto; flex: 1;">
                             <span style="font-size: 0.85rem; color: var(--text-secondary);">點</span>
                         </div>
-                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">轉換率：840換1000 | 前端回饋：3% | 成本：28.00 元/哩</div>
+                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">華航：840換1000（28.00 元/哩）｜<strong style="color: var(--accent-gold);">長榮：360換1000 🔥 划算 2.3 倍</strong></div>
                     </div>
 
                     <div class="form-group">
@@ -481,7 +492,7 @@
                             <input type="number" id="ptTaishin" class="form-select" value="6880" style="width: auto; flex: 1;">
                             <span style="font-size: 0.85rem; color: var(--text-secondary);">點</span>
                         </div>
-                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">轉換率：11換14 | 前端回饋：3.8% | 成本：20.68 元/哩</div>
+                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">華航：11換14（20.68 元/哩）｜長榮：11換13（唯一華航較優的一家）</div>
                     </div>
 
                     <div class="form-group">
@@ -490,7 +501,7 @@
                             <input type="number" id="ptEsun" class="form-select" value="3990" style="width: auto; flex: 1;">
                             <span style="font-size: 0.85rem; color: var(--text-secondary);">點</span>
                         </div>
-                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">轉換率：200換180 | 前端回饋：3.5% | 成本：31.75 元/哩</div>
+                        <div style="font-size: 0.75rem; color: var(--accent-aurora); margin-top: 0.3rem;">華航：200換180（31.75 元/哩）｜<strong style="color: var(--accent-gold);">長榮：200換300 🔥 划算 1.67 倍</strong></div>
                     </div>
 
                     <div class="form-group">
@@ -500,6 +511,15 @@
                             <span style="font-size: 0.85rem; color: var(--text-secondary);">哩</span>
                         </div>
                         <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.3rem;">神救援！原有的庫存直接補足缺口！</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="ptEvaExisting">6. 長榮帳戶原有庫存哩程</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="number" id="ptEvaExisting" class="form-select" value="49812" style="width: auto; flex: 1;">
+                            <span style="font-size: 0.85rem; color: var(--text-secondary);">哩</span>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.3rem;">無限萬哩遊帳戶現有哩程（2026-06-15 為 49,812）</div>
                     </div>
                 </div>
 
@@ -543,6 +563,39 @@
                             <span class="bk-val" id="resExisting">0 哩</span>
                         </div>
                     </div>
+
+                    <!-- ── 長榮無限萬哩遊 對照 ── -->
+                    <h3 class="card-title" style="margin-top: 1.8rem;">🌿 同一批點數轉長榮無限萬哩遊</h3>
+
+                    <div class="total-price-box">
+                        <span class="total-lbl">預計獲得總長榮哩程</span>
+                        <span class="total-num" id="totalEvaMiles">0 哩</span>
+                    </div>
+
+                    <div class="breakdown-list" style="margin-top: 0.8rem;">
+                        <div class="breakdown-item">
+                            <span class="bk-name">🦁 星展銀行 (依卡別)</span>
+                            <span class="bk-val" id="resDbsEva">待確認卡別</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🌳 國泰小樹點 (360 -> 1000)</span>
+                            <span class="bk-val" id="resCathayEva">0 哩</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🌹 台新 Point (11 -> 13)</span>
+                            <span class="bk-val" id="resTaishinEva">0 哩</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🐻 玉山 e point (200 -> 300)</span>
+                            <span class="bk-val" id="resEsunEva">0 哩</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="bk-name">🌿 長榮原有庫存</span>
+                            <span class="bk-val" id="resExistingEva">0 哩</span>
+                        </div>
+                    </div>
+
+                    <div id="rateAdvice" style="font-size: 0.8rem; color: var(--accent-gold); margin-top: 1rem; line-height: 1.6;"></div>
                 </div>
             </div>
         </section>

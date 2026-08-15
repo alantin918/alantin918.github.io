@@ -371,6 +371,10 @@ function initPointsTracker() {
     const ptEsun = document.getElementById('ptEsun');
     const ptExisting = document.getElementById('ptExisting');
 
+    // ── 長榮雙軌試算用元素 ──
+    const dbsEvaRate = document.getElementById('dbsEvaRate');
+    const ptEvaExisting = document.getElementById('ptEvaExisting');
+
     const resDbs = document.getElementById('resDbs');
     const resCathay = document.getElementById('resCathay');
     const resTaishin = document.getElementById('resTaishin');
@@ -383,6 +387,31 @@ function initPointsTracker() {
 
     const TARGET_MILES = 35000;
 
+    // ── 換算率（整除塊算法，與 plan.js ciSources 一致）──
+    // 華航 Dynasty Flyer
+    const CI_RATES = {
+        dbs:     { per: 90,  miles: 100  },
+        cathay:  { per: 840, miles: 1000 },
+        taishin: { per: 11,  miles: 14   },
+        esun:    { per: 200, miles: 180  }
+    };
+    // 長榮 無限萬哩遊（2026 年比例；星展依卡別點數類型另計）
+    const BR_RATES = {
+        cathay:  { per: 360, miles: 1000 },
+        taishin: { per: 11,  miles: 13   },
+        esun:    { per: 200, miles: 300  }
+    };
+
+    // 整除塊換算：不足一塊的餘數不予計算
+    function blockConvert(points, rate) {
+        return Math.floor(points / rate.per) * rate.miles;
+    }
+
+    // 安全寫入（元素不存在時略過，避免舊版 HTML 報錯）
+    function setTxt(el, text) {
+        if (el) el.textContent = text;
+    }
+
     function calculateMiles() {
         // 取得輸入值
         const dbsVal = parseFloat(ptDbs.value) || 0;
@@ -391,31 +420,52 @@ function initPointsTracker() {
         const esunVal = parseFloat(ptEsun.value) || 0;
         const existingMiles = parseFloat(ptExisting.value) || 0;
 
-        // 套用轉換公式 (以華航 Dynasty Flyer 為目標，整除塊算法，與 plan.js ciSources 一致)
-        // 星展 90 換 100
-        const dbsGroups = Math.floor(dbsVal / 90);
-        const dbsMiles = dbsGroups * 100;
-
-        // 國泰 840 換 1000, 只能換整數組
-        const cathayGroups = Math.floor(cathayVal / 840);
-        const cathayMiles = cathayGroups * 1000;
-
-        // 台新 11 換 14, 只能換整數組
-        const taishinGroups = Math.floor(taishinVal / 11);
-        const taishinMiles = taishinGroups * 14;
-
-        // 玉山 200 換 180, 只能換整數組
-        const esunGroups = Math.floor(esunVal / 200);
-        const esunMiles = esunGroups * 180;
+        // ── 華航 Dynasty Flyer ──
+        const dbsMiles = blockConvert(dbsVal, CI_RATES.dbs);
+        const cathayMiles = blockConvert(cathayVal, CI_RATES.cathay);
+        const taishinMiles = blockConvert(taishinVal, CI_RATES.taishin);
+        const esunMiles = blockConvert(esunVal, CI_RATES.esun);
 
         const totalMiles = dbsMiles + cathayMiles + taishinMiles + esunMiles + existingMiles;
 
-        // 更新 DOM 分項
+        // ── 長榮 無限萬哩遊 ──
+        const brCathay  = blockConvert(cathayVal,  BR_RATES.cathay);
+        const brTaishin = blockConvert(taishinVal, BR_RATES.taishin);
+        const brEsun    = blockConvert(esunVal,    BR_RATES.esun);
+
+        // 星展：每點可得哩數依卡別點數類型而定；須為 1,000 哩倍數、單筆最低 3,000 哩
+        const dbsPerPoint = parseFloat(dbsEvaRate ? dbsEvaRate.value : '') || 0;
+        let brDbs = 0;
+        if (dbsPerPoint > 0) {
+            brDbs = Math.floor(dbsVal * dbsPerPoint / 1000) * 1000;
+            if (brDbs < 3000) brDbs = 0;   // 未達單筆最低兌換門檻
+        }
+
+        const brExisting = parseFloat(ptEvaExisting ? ptEvaExisting.value : 0) || 0;
+        const totalBr = brDbs + brCathay + brTaishin + brEsun + brExisting;
+
+        // 更新 DOM 分項（華航）
         resDbs.textContent = `${dbsMiles.toLocaleString()} 哩`;
         resCathay.textContent = `${cathayMiles.toLocaleString()} 哩`;
         resTaishin.textContent = `${taishinMiles.toLocaleString()} 哩`;
         resEsun.textContent = `${esunMiles.toLocaleString()} 哩`;
         resExisting.textContent = `${existingMiles.toLocaleString()} 哩`;
+
+        // 更新 DOM 分項（長榮）
+        setTxt(document.getElementById('resDbsEva'),
+               dbsPerPoint > 0 ? `${brDbs.toLocaleString()} 哩` : '待確認卡別');
+        setTxt(document.getElementById('resCathayEva'),  `${brCathay.toLocaleString()} 哩`);
+        setTxt(document.getElementById('resTaishinEva'), `${brTaishin.toLocaleString()} 哩`);
+        setTxt(document.getElementById('resEsunEva'),    `${brEsun.toLocaleString()} 哩`);
+        setTxt(document.getElementById('resExistingEva'),`${brExisting.toLocaleString()} 哩`);
+        setTxt(document.getElementById('totalEvaMiles'), `${totalBr.toLocaleString()} 哩`);
+
+        // 逐家比較：同一筆點數轉哪邊比較多
+        const advice = [];
+        if (cathayVal  > 0) advice.push(`國泰 ${brCathay > cathayMiles ? '轉長榮多 ' + (brCathay - cathayMiles).toLocaleString() : '轉華航多 ' + (cathayMiles - brCathay).toLocaleString()} 哩`);
+        if (taishinVal > 0) advice.push(`台新 ${brTaishin > taishinMiles ? '轉長榮多 ' + (brTaishin - taishinMiles).toLocaleString() : '轉華航多 ' + (taishinMiles - brTaishin).toLocaleString()} 哩`);
+        if (esunVal    > 0) advice.push(`玉山 ${brEsun > esunMiles ? '轉長榮多 ' + (brEsun - esunMiles).toLocaleString() : '轉華航多 ' + (esunMiles - brEsun).toLocaleString()} 哩`);
+        setTxt(document.getElementById('rateAdvice'), advice.join('｜'));
 
         // 更新總和與進度條
         totalMilesEl.textContent = `${totalMiles.toLocaleString()} 哩`;
@@ -436,9 +486,10 @@ function initPointsTracker() {
     }
 
     // 綁定事件
-    [ptDbs, ptCathay, ptTaishin, ptEsun, ptExisting].forEach(input => {
+    [ptDbs, ptCathay, ptTaishin, ptEsun, ptExisting, ptEvaExisting].filter(Boolean).forEach(input => {
         input.addEventListener('input', calculateMiles);
     });
+    if (dbsEvaRate) dbsEvaRate.addEventListener('change', calculateMiles);
 
     // 初始計算
     calculateMiles();
