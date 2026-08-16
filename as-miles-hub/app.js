@@ -402,6 +402,16 @@ function initPointsTracker() {
         esun:    { per: 200, miles: 300  }
     };
 
+    // 星展轉「長榮無限萬哩遊」的點數類型（依官方哩程獎勵兌換表，含最低門檻與倍數）
+    const DBS_EVA_OPTIONS = {
+        // 飛行積金：1,000 點 = 1,000 哩，最低 3 份(3,000 點)，須 1,000 點倍數（飛行卡專屬）
+        fly:   { pointsPerBlock: 1000, milesPerBlock: 1000, minPoints: 3000  },
+        // 活利積分：5,000 點 = 1,000 哩，最低門檻 15,000 點，須 5,000 點倍數（一般信用卡）
+        bonus: { pointsPerBlock: 5000, milesPerBlock: 1000, minPoints: 15000 },
+        // 現金積點：官網現行標示 1 點 = 2 哩，最低 100 點、100 點倍數
+        cash:  { pointsPerBlock: 100,  milesPerBlock: 200,  minPoints: 100   }
+    };
+
     // 整除塊換算：不足一塊的餘數不予計算
     function blockConvert(points, rate) {
         return Math.floor(points / rate.per) * rate.miles;
@@ -433,12 +443,19 @@ function initPointsTracker() {
         const brTaishin = blockConvert(taishinVal, BR_RATES.taishin);
         const brEsun    = blockConvert(esunVal,    BR_RATES.esun);
 
-        // 星展：每點可得哩數依卡別點數類型而定；須為 1,000 哩倍數、單筆最低 3,000 哩
-        const dbsPerPoint = parseFloat(dbsEvaRate ? dbsEvaRate.value : '') || 0;
+        // 星展轉長榮：依點數類型，各有不同兌換比例、最低門檻與倍數（依官方「哩程獎勵」兌換表）
+        const dbsType = dbsEvaRate ? dbsEvaRate.value : '';
+        const opt = DBS_EVA_OPTIONS[dbsType];
         let brDbs = 0;
-        if (dbsPerPoint > 0) {
-            brDbs = Math.floor(dbsVal * dbsPerPoint / 1000) * 1000;
-            if (brDbs < 3000) brDbs = 0;   // 未達單筆最低兌換門檻
+        let dbsNote = '';
+        if (opt) {
+            if (dbsVal < opt.minPoints) {
+                // 未達最低兌換門檻，整筆無法兌換
+                brDbs = 0;
+                dbsNote = `未達門檻（需 ${opt.minPoints.toLocaleString()} 點，尚差 ${(opt.minPoints - dbsVal).toLocaleString()} 點）`;
+            } else {
+                brDbs = Math.floor(dbsVal / opt.pointsPerBlock) * opt.milesPerBlock;
+            }
         }
 
         const brExisting = parseFloat(ptEvaExisting ? ptEvaExisting.value : 0) || 0;
@@ -453,7 +470,7 @@ function initPointsTracker() {
 
         // 更新 DOM 分項（長榮）
         setTxt(document.getElementById('resDbsEva'),
-               dbsPerPoint > 0 ? `${brDbs.toLocaleString()} 哩` : '待確認卡別');
+               !opt ? '待確認卡別' : (dbsNote || `${brDbs.toLocaleString()} 哩`));
         setTxt(document.getElementById('resCathayEva'),  `${brCathay.toLocaleString()} 哩`);
         setTxt(document.getElementById('resTaishinEva'), `${brTaishin.toLocaleString()} 哩`);
         setTxt(document.getElementById('resEsunEva'),    `${brEsun.toLocaleString()} 哩`);
