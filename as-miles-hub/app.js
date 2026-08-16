@@ -372,7 +372,6 @@ function initPointsTracker() {
     const ptExisting = document.getElementById('ptExisting');
 
     // ── 長榮雙軌試算用元素 ──
-    const dbsEvaRate = document.getElementById('dbsEvaRate');
     const ptEvaExisting = document.getElementById('ptEvaExisting');
 
     const resDbs = document.getElementById('resDbs');
@@ -395,21 +394,12 @@ function initPointsTracker() {
         taishin: { per: 11,  miles: 14   },
         esun:    { per: 200, miles: 180  }
     };
-    // 長榮 無限萬哩遊（2026 年比例；星展依卡別點數類型另計）
+    // 長榮 無限萬哩遊（2026 年比例）
     const BR_RATES = {
+        dbs:     { per: 50,  miles: 100  },   // 星展 50 換 100（= 1 點 2 哩，四家中最佳）
         cathay:  { per: 360, miles: 1000 },
         taishin: { per: 11,  miles: 13   },
         esun:    { per: 200, miles: 300  }
-    };
-
-    // 星展轉「長榮無限萬哩遊」的點數類型（依官方哩程獎勵兌換表，含最低門檻與倍數）
-    const DBS_EVA_OPTIONS = {
-        // 飛行積金：1,000 點 = 1,000 哩，最低 3 份(3,000 點)，須 1,000 點倍數（飛行卡專屬）
-        fly:   { pointsPerBlock: 1000, milesPerBlock: 1000, minPoints: 3000  },
-        // 活利積分：5,000 點 = 1,000 哩，最低門檻 15,000 點，須 5,000 點倍數（一般信用卡）
-        bonus: { pointsPerBlock: 5000, milesPerBlock: 1000, minPoints: 15000 },
-        // 現金積點：官網現行標示 1 點 = 2 哩，最低 100 點、100 點倍數
-        cash:  { pointsPerBlock: 100,  milesPerBlock: 200,  minPoints: 100   }
     };
 
     // 整除塊換算：不足一塊的餘數不予計算
@@ -443,20 +433,7 @@ function initPointsTracker() {
         const brTaishin = blockConvert(taishinVal, BR_RATES.taishin);
         const brEsun    = blockConvert(esunVal,    BR_RATES.esun);
 
-        // 星展轉長榮：依點數類型，各有不同兌換比例、最低門檻與倍數（依官方「哩程獎勵」兌換表）
-        const dbsType = dbsEvaRate ? dbsEvaRate.value : '';
-        const opt = DBS_EVA_OPTIONS[dbsType];
-        let brDbs = 0;
-        let dbsNote = '';
-        if (opt) {
-            if (dbsVal < opt.minPoints) {
-                // 未達最低兌換門檻，整筆無法兌換
-                brDbs = 0;
-                dbsNote = `未達門檻（需 ${opt.minPoints.toLocaleString()} 點，尚差 ${(opt.minPoints - dbsVal).toLocaleString()} 點）`;
-            } else {
-                brDbs = Math.floor(dbsVal / opt.pointsPerBlock) * opt.milesPerBlock;
-            }
-        }
+        const brDbs = blockConvert(dbsVal, BR_RATES.dbs);
 
         const brExisting = parseFloat(ptEvaExisting ? ptEvaExisting.value : 0) || 0;
         const totalBr = brDbs + brCathay + brTaishin + brEsun + brExisting;
@@ -469,8 +446,7 @@ function initPointsTracker() {
         resExisting.textContent = `${existingMiles.toLocaleString()} 哩`;
 
         // 更新 DOM 分項（長榮）
-        setTxt(document.getElementById('resDbsEva'),
-               !opt ? '待確認卡別' : (dbsNote || `${brDbs.toLocaleString()} 哩`));
+        setTxt(document.getElementById('resDbsEva'), `${brDbs.toLocaleString()} 哩`);
         setTxt(document.getElementById('resCathayEva'),  `${brCathay.toLocaleString()} 哩`);
         setTxt(document.getElementById('resTaishinEva'), `${brTaishin.toLocaleString()} 哩`);
         setTxt(document.getElementById('resEsunEva'),    `${brEsun.toLocaleString()} 哩`);
@@ -479,6 +455,7 @@ function initPointsTracker() {
 
         // 逐家比較：同一筆點數轉哪邊比較多
         const advice = [];
+        if (dbsVal     > 0) advice.push(`星展 ${brDbs > dbsMiles ? '轉長榮多 ' + (brDbs - dbsMiles).toLocaleString() : '轉華航多 ' + (dbsMiles - brDbs).toLocaleString()} 哩`);
         if (cathayVal  > 0) advice.push(`國泰 ${brCathay > cathayMiles ? '轉長榮多 ' + (brCathay - cathayMiles).toLocaleString() : '轉華航多 ' + (cathayMiles - brCathay).toLocaleString()} 哩`);
         if (taishinVal > 0) advice.push(`台新 ${brTaishin > taishinMiles ? '轉長榮多 ' + (brTaishin - taishinMiles).toLocaleString() : '轉華航多 ' + (taishinMiles - brTaishin).toLocaleString()} 哩`);
         if (esunVal    > 0) advice.push(`玉山 ${brEsun > esunMiles ? '轉長榮多 ' + (brEsun - esunMiles).toLocaleString() : '轉華航多 ' + (esunMiles - brEsun).toLocaleString()} 哩`);
@@ -506,7 +483,6 @@ function initPointsTracker() {
     [ptDbs, ptCathay, ptTaishin, ptEsun, ptExisting, ptEvaExisting].filter(Boolean).forEach(input => {
         input.addEventListener('input', calculateMiles);
     });
-    if (dbsEvaRate) dbsEvaRate.addEventListener('change', calculateMiles);
 
     // 初始計算
     calculateMiles();
